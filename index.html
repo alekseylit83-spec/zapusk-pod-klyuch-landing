@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Запуск заведений под ключ — Минск</title>
+<style>
+  :root {
+    --bg: #faf8f5;
+    --bg-dark: #1c1a17;
+    --text: #1a1917;
+    --text-dark: #f4f1ec;
+    --text-muted: #6b6560;
+    --text-muted-dark: #b8b1a8;
+    --accent: #b5502d;
+    --accent-light: #d97a52;
+    --card-bg: #ffffff;
+    --border: #e8e2d9;
+    --radius: 14px;
+    --max-width: 1040px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { max-width: 100%; display: block; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 88px 0; }
+
+  .kicker {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin-bottom: 20px;
+  }
+
+  p { margin: 0; }
+
+  .lead {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 640px;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    padding: 96px 0 88px;
+  }
+
+  .hero .kicker { color: var(--accent-light); }
+
+  .hero h1 {
+    font-size: clamp(34px, 5.4vw, 54px);
+    line-height: 1.14;
+    max-width: 780px;
+  }
+
+  .hero .lead {
+    color: var(--text-muted-dark);
+    margin-top: 24px;
+    font-size: 19px;
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 15px 28px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .btn:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+  .hero-note {
+    font-size: 14px;
+    color: var(--text-muted-dark);
+  }
+
+  /* Problem */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .problem-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .problem-card h3 {
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .problem-card p { color: var(--text-muted); font-size: 15.5px; }
+
+  .now-strip {
+    margin-top: 24px;
+    background: #f4ece4;
+    border: 1px solid #ecd9c8;
+    border-radius: var(--radius);
+    padding: 24px 28px;
+  }
+
+  .now-strip h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .now-strip p { color: var(--text); font-size: 15.5px; }
+
+  /* Solution */
+  .solution p {
+    font-size: 18px;
+    max-width: 760px;
+    color: var(--text);
+  }
+
+  /* Formats */
+  .format-grid {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .format-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+
+  .format-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #f4ece4;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+
+  .format-card h3 { font-size: 21px; margin-bottom: 12px; }
+
+  .format-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-bottom: 22px;
+  }
+
+  .mini-steps { display: grid; gap: 14px; }
+
+  .mini-step {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .mini-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .mini-step-text strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .mini-step-text span {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* Cases */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .case-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+  }
+
+  .case-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #f4ece4;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+
+  .case-card h3 { font-size: 20px; margin-bottom: 10px; }
+  .case-card p { color: var(--text-muted); font-size: 15.5px; }
+
+  .cases-footnote {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 14.5px;
+  }
+
+  /* Differentiation */
+  .diff-table {
+    margin-top: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--card-bg);
+  }
+
+  .diff-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .diff-row + .diff-row { border-top: 1px solid var(--border); }
+
+  .diff-row.head { background: #f4f1ec; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+
+  .diff-cell {
+    padding: 20px 24px;
+    font-size: 15.5px;
+  }
+
+  .diff-cell:first-child { border-right: 1px solid var(--border); color: var(--text-muted); }
+  .diff-cell:last-child { color: var(--text); font-weight: 600; }
+
+  /* CTA */
+  .cta {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+  }
+
+  .cta .kicker { color: var(--accent-light); }
+  .cta .lead { color: var(--text-muted-dark); margin-top: 16px; margin-bottom: 32px; }
+  .cta .hero-note { display: block; margin-top: 18px; }
+
+  footer {
+    padding: 32px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 720px) {
+    section { padding: 60px 0; }
+    .problem-grid, .cases-grid, .format-grid { grid-template-columns: 1fr; }
+    .diff-row { grid-template-columns: 1fr; }
+    .diff-cell:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    .hero { padding: 72px 0 64px; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="kicker">Запуск заведений · Минск, Беларусь · 2017–2026</span>
+      <h1>Заведение под ключ — с процессами, которые остаются работать без вас</h1>
+      <p class="lead">Берём весь запуск на себя: от концепции до старта и устойчивой работы. На выходе — не просто открытые двери, а управляемый бизнес, который не разваливается, когда мы уходим.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#contact">Обсудить старт →</a>
+        <span class="hero-note">Шесть запусков и перезапусков за 2017–2026</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="problem">
+    <div class="wrap">
+      <span class="kicker">Проблема</span>
+      <h2>Почему запуски срываются, а открывшиеся — разваливаются</h2>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <h3>До открытия</h3>
+          <p>Смета уходит в минус, сроки сдвигаются, а концепция на бумаге расходится с тем, что происходит в зале — потому что за результат целиком никто не отвечает, только каждый за свой участок.</p>
+        </div>
+        <div class="problem-card">
+          <h3>После открытия</h3>
+          <p>Управляющий держит показатели, пока держит лично — и всё рушится в его первый отпуск или уход. Разовый консультант оставляет отчёт, а не работающий результат.</p>
+        </div>
+      </div>
+      <div class="now-strip">
+        <h3>Почему это особенно больно сейчас</h3>
+        <p>Аренда, стройка и персонал дорожают — цена ошибки растёт. А управленцев, которые доводят запуск до стабильного результата и не бросают его сразу после открытия, на рынке не хватает.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="solution">
+    <div class="wrap">
+      <span class="kicker">Решение</span>
+      <h2>Два формата — полная ответственность или экспертная поддержка</h2>
+      <p>Работаю в двух форматах: беру запуск как подряд целиком — или подключаюсь консультантом там, где ответственность за результат остаётся у вашей команды. В обоих случаях цель одна — выстроить процессы под ваш конкретный объект, а не оставить общие рекомендации на бумаге.</p>
+    </div>
+  </section>
+
+  <section class="formats">
+    <div class="wrap">
+      <span class="kicker">Форматы сотрудничества</span>
+      <h2>Как мы можем работать</h2>
+      <div class="format-grid">
+        <div class="format-card">
+          <span class="format-tag">Полная ответственность</span>
+          <h3>Запуск под ключ</h3>
+          <p class="format-desc">Весь цикл — от концепции до передачи. Критерий «работает без меня» фиксируем в договоре заранее.</p>
+          <div class="mini-steps">
+            <div class="mini-step">
+              <div class="mini-step-num">1</div>
+              <div class="mini-step-text"><strong>Концепция</strong><span>Формат, экономическая модель, техническое задание</span></div>
+            </div>
+            <div class="mini-step">
+              <div class="mini-step-num">2</div>
+              <div class="mini-step-text"><strong>Стройка и оборудование</strong><span>Контроль подрядчиков, сроков и сметы</span></div>
+            </div>
+            <div class="mini-step">
+              <div class="mini-step-num">3</div>
+              <div class="mini-step-text"><strong>Найм и обучение</strong><span>Команда, стандарты обслуживания, мотивация</span></div>
+            </div>
+            <div class="mini-step">
+              <div class="mini-step-num">4</div>
+              <div class="mini-step-text"><strong>Процессы</strong><span>От чек-листов смены до регулярной отчётности</span></div>
+            </div>
+            <div class="mini-step">
+              <div class="mini-step-num">5</div>
+              <div class="mini-step-text"><strong>Передача</strong><span>Зафиксированный в договоре критерий «работает без меня»</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="format-card">
+          <span class="format-tag">Без операционной ответственности</span>
+          <h3>Консультирование</h3>
+          <p class="format-desc">Для тех, кто хочет вести запуск своей командой, но с экспертной опорой на каждом шаге.</p>
+          <div class="mini-steps">
+            <div class="mini-step">
+              <div class="mini-step-num">1</div>
+              <div class="mini-step-text"><strong>Разовый аудит</strong><span>Смета, концепция, финансовая модель — до того как деньги вложены</span></div>
+            </div>
+            <div class="mini-step">
+              <div class="mini-step-num">2</div>
+              <div class="mini-step-text"><strong>Сопровождение команды</strong><span>Курирую запуск, который ведёт ваша команда, без ответственности за конечный результат</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cases">
+    <div class="wrap">
+      <span class="kicker">Кейсы</span>
+      <h2>Как это выглядело на практике</h2>
+      <div class="cases-grid">
+        <div class="case-card">
+          <span class="case-tag">Перезапуск</span>
+          <h3>SAVA Bar</h3>
+          <p>Перезапуск действующего заведения в новом, ночном формате: новая концепция целиком и полный пакет разрешительной документации — самый тяжёлый случай из возможных.</p>
+        </div>
+        <div class="case-card">
+          <span class="case-tag">Премиальный сегмент</span>
+          <h3>Marbl</h3>
+          <p>Контроль бюджета через ABC-анализ и баланс креативности меню с рентабельностью — вместе с шеф-поваром.</p>
+        </div>
+      </div>
+      <p class="cases-footnote">И ещё шесть объектов за 2017–2026, Минск.</p>
+    </div>
+  </section>
+
+  <section class="diff">
+    <div class="wrap">
+      <span class="kicker">Чем это отличается</span>
+      <h2>Не найм и не разовый консалтинг</h2>
+      <div class="diff-table">
+        <div class="diff-row head">
+          <div class="diff-cell">Обычно</div>
+          <div class="diff-cell">Здесь</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-cell">Наёмный управляющий держит результат, пока держит лично</div>
+          <div class="diff-cell">Процессы зафиксированы и работают после ухода подрядчика</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-cell">Разовый консультант оставляет отчёт на бумаге</div>
+          <div class="diff-cell">Подрядчик отвечает за рабочий результат, а не за совет</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-cell">Один формат сотрудничества на любую задачу</div>
+          <div class="diff-cell">Вы выбираете: полный подряд или только консультирование</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-cell">Каждый подрядчик отвечает только за свой участок</div>
+          <div class="diff-cell">Один человек отвечает за весь цикл целиком</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <span class="kicker">Что дальше</span>
+      <h2>Расскажите про ваш объект</h2>
+      <p class="lead">Если тема откликнулась — напишите в Telegram. Обсудим ваш объект и формат, который подойдёт: запуск под ключ или консультирование.</p>
+      <a class="btn" href="https://t.me/AlekseyResto" target="_blank" rel="noopener">Написать в Telegram →</a>
+      <span class="hero-note">Обсуждаем формат и сроки старта индивидуально.</span>
+    </div>
+  </section>
+
+  <footer>
+    Запуск и консультирование заведений · Минск, Беларусь · 2026
+  </footer>
+
+</body>
+</html>
