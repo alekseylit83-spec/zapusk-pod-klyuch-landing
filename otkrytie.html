@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Бриф для открытия заведения — Минск</title>
+<style>
+  :root {
+    --bg-dark: #1c1a17;
+    --text-dark: #f4f1ec;
+    --text-muted-dark: #b8b1a8;
+    --accent: #b5502d;
+    --accent-light: #d97a52;
+    --radius: 14px;
+    --max-width: 640px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max-width); margin: 0 auto; padding: 32px 20px 64px; }
+  .back-link { display: inline-block; color: var(--text-muted-dark); text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+  .back-link:hover { color: var(--text-dark); }
+  .progress-track { height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); transition: width 0.2s ease; }
+  .progress-label { font-size: 13px; color: var(--text-muted-dark); margin-bottom: 28px; }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 28px; }
+  .card h2 { margin: 0 0 20px; font-size: 22px; }
+  .options { display: grid; gap: 10px; }
+  .option {
+    display: block; width: 100%; text-align: left; background: transparent;
+    border: 1px solid rgba(255,255,255,0.16); color: var(--text-dark);
+    border-radius: 10px; padding: 14px 16px; font-size: 15px; cursor: pointer; font-family: inherit;
+  }
+  .option.selected { border-color: var(--accent); background: rgba(181,80,45,0.18); }
+  .field { display: block; margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--text-muted-dark); margin-bottom: 6px; }
+  .field input {
+    width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 8px; padding: 12px 14px; color: var(--text-dark); font-size: 15px; font-family: inherit;
+  }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none;
+    padding: 13px 24px; border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; font-family: inherit; }
+  .btn:hover { background: var(--accent-light); }
+  .btn[disabled] { opacity: 0.4; cursor: default; pointer-events: none; }
+  .btn-ghost { background: transparent; color: var(--text-muted-dark); border: 1px solid rgba(255,255,255,0.16); }
+  .btn-ghost:hover { color: var(--text-dark); border-color: rgba(255,255,255,0.3); }
+  .result-text { white-space: pre-wrap; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius); padding: 20px; font-size: 14.5px; margin: 20px 0; }
+  .note { font-size: 13px; color: var(--text-muted-dark); margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">‹ На главную</a>
+  <div id="app"></div>
+</div>
+<script src="otkrytie-logic.js"></script>
+<script>
+(function () {
+  var STORAGE_KEY = 'otkrytie-answers-v1';
+  var app = document.getElementById('app');
+  var answers = loadAnswers(window.localStorage, STORAGE_KEY);
+  var currentIndex = 0;
+
+  function visibleSteps() {
+    return OTKRYTIE_STEPS.filter(function (s) { return isStepVisible(s.id, answers); });
+  }
+
+  function persist() { saveAnswers(window.localStorage, STORAGE_KEY, answers); }
+
+  function escapeAttr(value) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function optionsFor(step) {
+    return step.type === 'yesno' ? ['Да', 'Нет'] : step.options;
+  }
+
+  function renderOptionsHtml(step) {
+    var current = answers[step.id];
+    var multi = step.type === 'multi';
+    var opts = optionsFor(step);
+    var html = '<div class="options">';
+    opts.forEach(function (opt) {
+      var selected = multi ? (current || []).indexOf(opt) !== -1 : current === opt;
+      html += '<button type="button" class="option' + (selected ? ' selected' : '') +
+        '" data-value="' + escapeAttr(opt) + '">' + opt + '</button>';
+    });
+    html += '</div>';
+    if (step.type === 'single' && current === 'Другое') {
+      html += '<div class="field"><label>Уточните</label>' +
+        '<input type="text" id="f-other" value="' + escapeAttr(answers[step.id + 'Custom'] || '') + '"></div>';
+    }
+    return html;
+  }
+
+  function renderConceptHtml() {
+    var c = answers.concept || {};
+    return (
+      '<div class="field"><label>Мы создаём</label>' +
+      '<input type="text" id="f-forWhom" value="' + escapeAttr(c.forWhom || '') + '"></div>' +
+      '<div class="field"><label>для</label>' +
+      '<input type="text" id="f-audience" value="' + escapeAttr(c.audience || '') + '"></div>' +
+      '<div class="field"><label>где гости получают</label>' +
+      '<input type="text" id="f-result" value="' + escapeAttr(c.result || '') + '"></div>'
+    );
+  }
+
+  function renderPlaceDetailsHtml() {
+    var d = answers.placeDetails || {};
+    return (
+      '<div class="field"><label>Адрес / район</label>' +
+      '<input type="text" id="f-address" value="' + escapeAttr(d.address || '') + '"></div>' +
+      '<div class="field"><label>Площадь, м²</label>' +
+      '<input type="text" id="f-area" value="' + escapeAttr(d.area || '') + '"></div>' +
+      '<div class="field"><label>Посадочных мест</label>' +
+      '<input type="text" id="f-seats" value="' + escapeAttr(d.seats || '') + '"></div>'
+    );
+  }
+
+  function bindOptionClicks(step) {
+    var multi = step.type === 'multi';
+    var buttons = app.querySelectorAll('.option');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (e) {
+        var value = e.currentTarget.getAttribute('data-value');
+        if (multi) {
+          var list = (answers[step.id] || []).slice();
+          var idx = list.indexOf(value);
+          if (idx === -1) list.push(value); else list.splice(idx, 1);
+          answers[step.id] = list;
+          persist();
+          renderCurrent();
+        } else if (step.type === 'single' && value === 'Другое') {
+          // "Другое" на одиночном выборе не продвигает визард дальше —
+          // сперва нужно показать поле свободного текста и дождаться "Далее".
+          answers[step.id] = value;
+          persist();
+          renderCurrent();
+        } else {
+          answers[step.id] = value;
+          persist();
+          goNext();
+        }
+      });
+    }
+  }
+
+  function bindOtherInput(step) {
+    var input = document.getElementById('f-other');
+    if (!input) return;
+    input.addEventListener('input', function (e) {
+      answers[step.id + 'Custom'] = e.target.value;
+      persist();
+    });
+  }
+
+  function bindConceptInputs() {
+    ['forWhom', 'audience', 'result'].forEach(function (key) {
+      document.getElementById('f-' + key).addEventListener('input', function (e) {
+        answers.concept = answers.concept || {};
+        answers.concept[key] = e.target.value;
+        persist();
+      });
+    });
+  }
+
+  function bindPlaceDetailsInputs() {
+    ['address', 'area', 'seats'].forEach(function (key) {
+      document.getElementById('f-' + key).addEventListener('input', function (e) {
+        answers.placeDetails = answers.placeDetails || {};
+        answers.placeDetails[key] = e.target.value;
+        persist();
+      });
+    });
+  }
+
+  function copyText(text, button) {
+    var original = button.textContent;
+    function done() {
+      button.textContent = 'Скопировано';
+      setTimeout(function () { button.textContent = original; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  function renderResult() {
+    var text = buildBriefText(answers);
+    var link = buildTelegramLink(text);
+    app.innerHTML =
+      '<div class="card"><h2>Ваш бриф готов</h2>' +
+      '<div class="result-text" id="result-text"></div>' +
+      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить вам в Telegram →</a> ' +
+      '<button type="button" class="btn btn-ghost" id="btn-copy">Скопировать текст</button>' +
+      '<div class="note">Ответы остаются в этом окне, пока вы не нажмёте «Отправить» — тогда откроется Telegram с готовым текстом, и уходит только то, что вы подтвердите.</div>' +
+      '</div>' +
+      '<div class="nav-row"><button type="button" class="btn btn-ghost" id="btn-back">Назад</button><span></span></div>';
+    document.getElementById('result-text').textContent = text;
+    document.getElementById('btn-copy').addEventListener('click', function () {
+      copyText(text, document.getElementById('btn-copy'));
+    });
+    document.getElementById('btn-back').addEventListener('click', function () {
+      currentIndex = visibleSteps().length - 1;
+      renderCurrent();
+    });
+  }
+
+  function goNext() {
+    var steps = visibleSteps();
+    if (currentIndex < steps.length - 1) currentIndex++;
+    else currentIndex = steps.length;
+    renderCurrent();
+  }
+
+  function goBack() {
+    if (currentIndex > 0) { currentIndex--; renderCurrent(); }
+  }
+
+  function renderCurrent() {
+    var steps = visibleSteps();
+    if (currentIndex > steps.length) currentIndex = steps.length;
+    if (currentIndex >= steps.length) { renderResult(); return; }
+
+    var step = steps[currentIndex];
+    var body;
+    if (step.type === 'single' || step.type === 'multi' || step.type === 'yesno') body = renderOptionsHtml(step);
+    else if (step.type === 'concept') body = renderConceptHtml();
+    else if (step.type === 'placeDetails') body = renderPlaceDetailsHtml();
+
+    var pct = Math.round((currentIndex / steps.length) * 100);
+    app.innerHTML =
+      '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="progress-label">Шаг ' + (currentIndex + 1) + ' из ' + steps.length + '</div>' +
+      '<div class="card"><h2>' + step.label + '</h2>' + body + '</div>' +
+      '<div class="nav-row">' +
+        '<button type="button" class="btn btn-ghost" id="btn-back"' + (currentIndex === 0 ? ' disabled' : '') + '>Назад</button>' +
+        (step.type === 'multi' || step.type === 'concept' || step.type === 'placeDetails' ||
+          (step.type === 'single' && answers[step.id] === 'Другое')
+          ? '<button type="button" class="btn" id="btn-next">Далее</button>'
+          : '<span></span>') +
+      '</div>';
+
+    if (step.type === 'single' || step.type === 'multi' || step.type === 'yesno') bindOptionClicks(step);
+    if (step.type === 'concept') bindConceptInputs();
+    if (step.type === 'placeDetails') bindPlaceDetailsInputs();
+    if (step.type === 'single' && answers[step.id] === 'Другое') bindOtherInput(step);
+
+    document.getElementById('btn-back').addEventListener('click', goBack);
+    var nextBtn = document.getElementById('btn-next');
+    if (nextBtn) nextBtn.addEventListener('click', goNext);
+  }
+
+  renderCurrent();
+})();
+</script>
+</body>
+</html>
