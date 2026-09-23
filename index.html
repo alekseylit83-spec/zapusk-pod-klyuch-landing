@@ -302,6 +302,20 @@
   .diff-cell:first-child { border-right: 1px solid var(--border); color: var(--text-muted); }
   .diff-cell:last-child { color: var(--text); font-weight: 600; }
 
+  /* Tools */
+  .tools-grid {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { background: var(--card-bg); border-color: var(--accent); color: var(--accent); }
+
   /* CTA */
   .cta {
     background: var(--bg-dark);
@@ -326,6 +340,7 @@
     .diff-cell:first-child { border-right: none; border-bottom: 1px solid var(--border); }
     .hero { padding: 72px 0 64px; }
     .hero-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .tools-grid { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -473,6 +488,18 @@
           <div class="diff-cell">Каждый подрядчик отвечает только за свой участок</div>
           <div class="diff-cell">Один человек отвечает за весь цикл целиком</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools">
+    <div class="wrap">
+      <span class="kicker">Проверьте свой случай</span>
+      <h2>Пройдите короткую диагностику — 5–7 минут</h2>
+      <p class="lead">Ответы уходят напрямую в Telegram, без регистрации и без отправки на сервер.</p>
+      <div class="tools-grid">
+        <a class="btn" href="otkrytie.html">Я открываю заведение →</a>
+        <a class="btn btn-outline" href="diagnostika.html">У меня уже работает заведение →</a>
       </div>
     </div>
   </section>
