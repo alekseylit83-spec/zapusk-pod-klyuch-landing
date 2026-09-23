@@ -64,11 +64,28 @@
 <script>
 (function () {
   var STORAGE_KEY = 'diagnostika-answers-v1';
+  var STEP_KEY = 'diagnostika-step-v1';
   var app = document.getElementById('app');
-  var answers = loadAnswers(window.localStorage, STORAGE_KEY);
-  var currentIndex = 0;
+  var storage;
+  try { storage = window.localStorage; } catch (e) { storage = null; }
+  var answers = loadAnswers(storage, STORAGE_KEY);
+  var currentIndex = loadStep();
 
-  function persist() { saveAnswers(window.localStorage, STORAGE_KEY, answers); }
+  function persist() { saveAnswers(storage, STORAGE_KEY, answers); }
+
+  function loadStep() {
+    try {
+      return parseInt(storage.getItem(STEP_KEY), 10) || 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function persistStep() {
+    try {
+      storage.setItem(STEP_KEY, String(currentIndex));
+    } catch (e) {}
+  }
 
   function escapeAttr(value) {
     return String(value)
@@ -106,14 +123,15 @@
   }
 
   function renderTextHtml() {
-    var value = getAnswer(answers, DIAGNOSTIKA_STEPS[currentIndex]) || '';
-    return '<div class="field"><input type="text" id="f-input" value="' + escapeAttr(value) + '" placeholder="Например: Пн–Вс, 11:00–00:00"></div>';
+    var step = DIAGNOSTIKA_STEPS[currentIndex];
+    var value = getAnswer(answers, step) || '';
+    return '<div class="field"><input type="text" id="f-input" value="' + escapeAttr(value) + '" placeholder="' + escapeAttr(step.placeholder || '') + '"></div>';
   }
 
   function renderNumberHtml() {
     var value = getAnswer(answers, DIAGNOSTIKA_STEPS[currentIndex]);
     return '<div class="field"><input type="number" id="f-input" value="' + (value === undefined || value === null ? '' : value) + '" placeholder="Например: -15"></div>' +
-      '<div class="note">Введите со знаком: минус — отстаём от плана, плюс — опережаем</div>';
+      '<div class="note">Введите со знаком: минус — отстаём от плана, без знака — опережаем</div>';
   }
 
   function bindOptionClicks(step) {
@@ -196,6 +214,7 @@
     });
     document.getElementById('btn-back').addEventListener('click', function () {
       currentIndex = DIAGNOSTIKA_STEPS.length - 1;
+      persistStep();
       renderCurrent();
     });
   }
@@ -203,11 +222,12 @@
   function goNext() {
     if (currentIndex < DIAGNOSTIKA_STEPS.length - 1) currentIndex++;
     else currentIndex = DIAGNOSTIKA_STEPS.length;
+    persistStep();
     renderCurrent();
   }
 
   function goBack() {
-    if (currentIndex > 0) { currentIndex--; renderCurrent(); }
+    if (currentIndex > 0) { currentIndex--; persistStep(); renderCurrent(); }
   }
 
   function renderCurrent() {
@@ -222,7 +242,9 @@
     app.innerHTML =
       '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div class="progress-label">Шаг ' + (currentIndex + 1) + ' из ' + DIAGNOSTIKA_STEPS.length + '</div>' +
-      '<div class="card"><h2>' + step.label + '</h2>' + body + '</div>' +
+      '<div class="card"><h2>' + step.label + '</h2>' +
+        (step.type === 'scale' ? '<p class="note">' + SCALE_QUESTION + '</p>' : '') +
+        body + '</div>' +
       '<div class="nav-row">' +
         '<button type="button" class="btn btn-ghost" id="btn-back"' + (currentIndex === 0 ? ' disabled' : '') + '>Назад</button>' +
         (step.type === 'multi' || step.type === 'text' || step.type === 'number'

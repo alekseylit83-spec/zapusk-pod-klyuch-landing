@@ -4,6 +4,8 @@
 
 var TELEGRAM_USERNAME = 'AlekseyResto';
 
+var SCALE_QUESTION = 'Насколько это под контролем без вашего личного участия?';
+
 var PRACTICE_ITEMS = [
   { id: 'foodcost', label: 'Фудкост и маржинальность меню' },
   { id: 'shifts', label: 'Планирование смен и текучка персонала' },
@@ -27,11 +29,11 @@ var DIAGNOSTIKA_STEPS = PRACTICE_ITEMS.map(function (item) {
   return { id: item.id, label: item.label, type: 'scale', group: 'practices' };
 }).concat([
   { id: 'revenueDeviation', label: 'На сколько процентов факт по выручке отличается от плана в последнем завершённом месяце?', type: 'number', group: 'root' },
-  { id: 'hours', label: 'Режим работы', type: 'text', group: 'snapshot' },
+  { id: 'hours', label: 'Режим работы', type: 'text', group: 'snapshot', placeholder: 'Например: Пн–Вс, 11:00–00:00' },
   { id: 'menuFormat', label: 'Формат меню', type: 'multi', group: 'snapshot', options: ['Завтраки', 'Бранчи', 'Бизнес-ланч (обеды)', 'Основное меню', 'Бар и напитки', 'Десерты', 'Другое'] },
   { id: 'strongDays', label: 'Сильные дни недели', type: 'multi', group: 'snapshot', options: DAYS },
   { id: 'weakDays', label: 'Слабые дни недели', type: 'multi', group: 'snapshot', options: DAYS },
-  { id: 'hourlyLoad', label: 'Заполняемость по часам', type: 'text', group: 'snapshot' }
+  { id: 'hourlyLoad', label: 'Заполняемость по часам', type: 'text', group: 'snapshot', placeholder: 'Например: полно Пт–Сб 19:00–22:00, пусто днём в будни' }
 ]);
 
 function getAnswer(answers, step) {

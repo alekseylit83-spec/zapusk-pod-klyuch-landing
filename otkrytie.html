@@ -65,15 +65,32 @@
 <script>
 (function () {
   var STORAGE_KEY = 'otkrytie-answers-v1';
+  var STEP_KEY = 'otkrytie-step-v1';
   var app = document.getElementById('app');
-  var answers = loadAnswers(window.localStorage, STORAGE_KEY);
-  var currentIndex = 0;
+  var storage;
+  try { storage = window.localStorage; } catch (e) { storage = null; }
+  var answers = loadAnswers(storage, STORAGE_KEY);
+  var currentIndex = loadStep();
 
   function visibleSteps() {
     return OTKRYTIE_STEPS.filter(function (s) { return isStepVisible(s.id, answers); });
   }
 
-  function persist() { saveAnswers(window.localStorage, STORAGE_KEY, answers); }
+  function persist() { saveAnswers(storage, STORAGE_KEY, answers); }
+
+  function loadStep() {
+    try {
+      return parseInt(storage.getItem(STEP_KEY), 10) || 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function persistStep() {
+    try {
+      storage.setItem(STEP_KEY, String(currentIndex));
+    } catch (e) {}
+  }
 
   function escapeAttr(value) {
     return String(value)
@@ -229,6 +246,7 @@
     });
     document.getElementById('btn-back').addEventListener('click', function () {
       currentIndex = visibleSteps().length - 1;
+      persistStep();
       renderCurrent();
     });
   }
@@ -237,11 +255,12 @@
     var steps = visibleSteps();
     if (currentIndex < steps.length - 1) currentIndex++;
     else currentIndex = steps.length;
+    persistStep();
     renderCurrent();
   }
 
   function goBack() {
-    if (currentIndex > 0) { currentIndex--; renderCurrent(); }
+    if (currentIndex > 0) { currentIndex--; persistStep(); renderCurrent(); }
   }
 
   function renderCurrent() {

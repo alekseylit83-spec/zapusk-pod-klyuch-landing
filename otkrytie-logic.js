@@ -68,7 +68,7 @@ var OTKRYTIE_STEPS = [
 ];
 
 function isStepVisible(stepId, answers) {
-  if (stepId === 'placeDetails') return answers.hasPlace === 'Да';
+  if (stepId === 'placeDetails') return answers.hasPlace !== 'Нет';
   if (stepId === 'locationPriorities') return answers.hasPlace === 'Нет';
   return true;
 }
