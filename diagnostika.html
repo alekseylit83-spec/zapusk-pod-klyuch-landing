@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Диагностика заведения — Минск</title>
+<style>
+  :root {
+    --bg-dark: #1c1a17;
+    --text-dark: #f4f1ec;
+    --text-muted-dark: #b8b1a8;
+    --accent: #b5502d;
+    --accent-light: #d97a52;
+    --radius: 14px;
+    --max-width: 640px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max-width); margin: 0 auto; padding: 32px 20px 64px; }
+  .back-link { display: inline-block; color: var(--text-muted-dark); text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+  .back-link:hover { color: var(--text-dark); }
+  .progress-track { height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); transition: width 0.2s ease; }
+  .progress-label { font-size: 13px; color: var(--text-muted-dark); margin-bottom: 28px; }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 28px; }
+  .card h2 { margin: 0 0 20px; font-size: 20px; }
+  .options { display: grid; gap: 10px; }
+  .option {
+    display: block; width: 100%; text-align: left; background: transparent;
+    border: 1px solid rgba(255,255,255,0.16); color: var(--text-dark);
+    border-radius: 10px; padding: 14px 16px; font-size: 15px; cursor: pointer; font-family: inherit;
+  }
+  .option.selected { border-color: var(--accent); background: rgba(181,80,45,0.18); }
+  .field { display: block; margin-bottom: 8px; }
+  .field input {
+    width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 8px; padding: 12px 14px; color: var(--text-dark); font-size: 15px; font-family: inherit;
+  }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none;
+    padding: 13px 24px; border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; font-family: inherit; }
+  .btn:hover { background: var(--accent-light); }
+  .btn[disabled] { opacity: 0.4; cursor: default; pointer-events: none; }
+  .btn-ghost { background: transparent; color: var(--text-muted-dark); border: 1px solid rgba(255,255,255,0.16); }
+  .btn-ghost:hover { color: var(--text-dark); border-color: rgba(255,255,255,0.3); }
+  .result-text { white-space: pre-wrap; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius); padding: 20px; font-size: 14.5px; margin: 20px 0; }
+  .note { font-size: 13px; color: var(--text-muted-dark); margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index.html">‹ На главную</a>
+  <div id="app"></div>
+</div>
+<script src="diagnostika-logic.js"></script>
+<script>
+(function () {
+  var STORAGE_KEY = 'diagnostika-answers-v1';
+  var app = document.getElementById('app');
+  var answers = loadAnswers(window.localStorage, STORAGE_KEY);
+  var currentIndex = 0;
+
+  function persist() { saveAnswers(window.localStorage, STORAGE_KEY, answers); }
+
+  function escapeAttr(value) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function optionsFor(step) {
+    return step.type === 'scale' ? SCALE_OPTIONS.map(function (o) { return o.label; }) : step.options;
+  }
+
+  function currentScaleLabel(step) {
+    var raw = getAnswer(answers, step);
+    if (!raw) return null;
+    for (var i = 0; i < SCALE_OPTIONS.length; i++) {
+      if (SCALE_OPTIONS[i].value === raw) return SCALE_OPTIONS[i].label;
+    }
+    return null;
+  }
+
+  function renderOptionsHtml(step) {
+    var multi = step.type === 'multi';
+    var current = multi ? (getAnswer(answers, step) || []) : (step.type === 'scale' ? currentScaleLabel(step) : getAnswer(answers, step));
+    var opts = optionsFor(step);
+    var html = '<div class="options">';
+    opts.forEach(function (opt) {
+      var selected = multi ? current.indexOf(opt) !== -1 : current === opt;
+      html += '<button type="button" class="option' + (selected ? ' selected' : '') +
+        '" data-value="' + escapeAttr(opt) + '">' + opt + '</button>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function renderTextHtml() {
+    var value = getAnswer(answers, DIAGNOSTIKA_STEPS[currentIndex]) || '';
+    return '<div class="field"><input type="text" id="f-input" value="' + escapeAttr(value) + '" placeholder="Например: Пн–Вс, 11:00–00:00"></div>';
+  }
+
+  function renderNumberHtml() {
+    var value = getAnswer(answers, DIAGNOSTIKA_STEPS[currentIndex]);
+    return '<div class="field"><input type="number" id="f-input" value="' + (value === undefined || value === null ? '' : value) + '" placeholder="Например: -15"></div>' +
+      '<div class="note">Введите со знаком: минус — отстаём от плана, плюс — опережаем</div>';
+  }
+
+  function bindOptionClicks(step) {
+    var multi = step.type === 'multi';
+    var buttons = app.querySelectorAll('.option');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (e) {
+        var label = e.currentTarget.getAttribute('data-value');
+        if (multi) {
+          var list = (getAnswer(answers, step) || []).slice();
+          var idx = list.indexOf(label);
+          if (idx === -1) list.push(label); else list.splice(idx, 1);
+          setAnswer(answers, step, list);
+          persist();
+          renderCurrent();
+        } else if (step.type === 'scale') {
+          var found = null;
+          for (var j = 0; j < SCALE_OPTIONS.length; j++) {
+            if (SCALE_OPTIONS[j].label === label) { found = SCALE_OPTIONS[j]; break; }
+          }
+          setAnswer(answers, step, found.value);
+          persist();
+          goNext();
+        } else {
+          setAnswer(answers, step, label);
+          persist();
+          goNext();
+        }
+      });
+    }
+  }
+
+  function bindTextInput(step) {
+    document.getElementById('f-input').addEventListener('input', function (e) {
+      setAnswer(answers, step, e.target.value);
+      persist();
+    });
+  }
+
+  function copyText(text, button) {
+    var original = button.textContent;
+    function done() {
+      button.textContent = 'Скопировано';
+      setTimeout(function () { button.textContent = original; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  function renderResult() {
+    var text = buildDiagnosticText(answers);
+    var link = buildTelegramLink(text);
+    app.innerHTML =
+      '<div class="card"><h2>Ваша диагностика готова</h2>' +
+      '<div class="result-text" id="result-text"></div>' +
+      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить вам в Telegram →</a> ' +
+      '<button type="button" class="btn btn-ghost" id="btn-copy">Скопировать текст</button>' +
+      '<div class="note">Ответы остаются в этом окне, пока вы не нажмёте «Отправить» — тогда откроется Telegram с готовым текстом, и уходит только то, что вы подтвердите.</div>' +
+      '</div>' +
+      '<div class="nav-row"><button type="button" class="btn btn-ghost" id="btn-back">Назад</button><span></span></div>';
+    document.getElementById('result-text').textContent = text;
+    document.getElementById('btn-copy').addEventListener('click', function () {
+      copyText(text, document.getElementById('btn-copy'));
+    });
+    document.getElementById('btn-back').addEventListener('click', function () {
+      currentIndex = DIAGNOSTIKA_STEPS.length - 1;
+      renderCurrent();
+    });
+  }
+
+  function goNext() {
+    if (currentIndex < DIAGNOSTIKA_STEPS.length - 1) currentIndex++;
+    else currentIndex = DIAGNOSTIKA_STEPS.length;
+    renderCurrent();
+  }
+
+  function goBack() {
+    if (currentIndex > 0) { currentIndex--; renderCurrent(); }
+  }
+
+  function renderCurrent() {
+    if (currentIndex >= DIAGNOSTIKA_STEPS.length) { renderResult(); return; }
+    var step = DIAGNOSTIKA_STEPS[currentIndex];
+    var body;
+    if (step.type === 'scale' || step.type === 'multi') body = renderOptionsHtml(step);
+    else if (step.type === 'text') body = renderTextHtml();
+    else if (step.type === 'number') body = renderNumberHtml();
+
+    var pct = Math.round((currentIndex / DIAGNOSTIKA_STEPS.length) * 100);
+    app.innerHTML =
+      '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="progress-label">Шаг ' + (currentIndex + 1) + ' из ' + DIAGNOSTIKA_STEPS.length + '</div>' +
+      '<div class="card"><h2>' + step.label + '</h2>' + body + '</div>' +
+      '<div class="nav-row">' +
+        '<button type="button" class="btn btn-ghost" id="btn-back"' + (currentIndex === 0 ? ' disabled' : '') + '>Назад</button>' +
+        (step.type === 'multi' || step.type === 'text' || step.type === 'number'
+          ? '<button type="button" class="btn" id="btn-next">Далее</button>' : '<span></span>') +
+      '</div>';
+
+    if (step.type === 'scale' || step.type === 'multi') bindOptionClicks(step);
+    if (step.type === 'text' || step.type === 'number') bindTextInput(step);
+
+    document.getElementById('btn-back').addEventListener('click', goBack);
+    var nextBtn = document.getElementById('btn-next');
+    if (nextBtn) nextBtn.addEventListener('click', goNext);
+  }
+
+  renderCurrent();
+})();
+</script>
+</body>
+</html>
