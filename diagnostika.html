@@ -6,53 +6,63 @@
 <title>Диагностика заведения — Минск</title>
 <style>
   :root {
-    --bg-dark: #1c1a17;
-    --text-dark: #f4f1ec;
-    --text-muted-dark: #b8b1a8;
-    --accent: #b5502d;
-    --accent-light: #d97a52;
-    --radius: 14px;
+    --black: #000000;
+    --surface: #272729;
+    --surface-2: #2a2a2d;
+    --text-dark: #ffffff;
+    --text-muted-dark: rgba(255, 255, 255, 0.64);
+    --blue: #0071e3;
+    --blue-hover: #0077ed;
+    --link-dark: #2997ff;
+    --shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+    --font-display: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-text: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --max-width: 640px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg-dark);
+    font-family: var(--font-text);
+    font-size: 17px;
+    letter-spacing: -0.374px;
+    background: var(--black);
     color: var(--text-dark);
-    line-height: 1.55;
+    line-height: 1.47;
     -webkit-font-smoothing: antialiased;
   }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
   .wrap { max-width: var(--max-width); margin: 0 auto; padding: 32px 20px 64px; }
-  .back-link { display: inline-block; color: var(--text-muted-dark); text-decoration: none; font-size: 14px; margin-bottom: 24px; }
-  .back-link:hover { color: var(--text-dark); }
-  .progress-track { height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
-  .progress-fill { height: 100%; background: var(--accent); transition: width 0.2s ease; }
-  .progress-label { font-size: 13px; color: var(--text-muted-dark); margin-bottom: 28px; }
-  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 28px; }
-  .card h2 { margin: 0 0 20px; font-size: 20px; }
+  .back-link { display: inline-block; color: var(--link-dark); text-decoration: none; font-size: 14px; letter-spacing: -0.224px; margin-bottom: 24px; }
+  .back-link:hover { text-decoration: underline; }
+  .progress-track { height: 4px; background: var(--surface); border-radius: 980px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--blue); transition: width 0.2s ease; }
+  .progress-label { font-size: 14px; letter-spacing: -0.224px; color: var(--text-muted-dark); margin-bottom: 28px; }
+  .card { background: var(--surface); border-radius: 12px; padding: 32px; }
+  .card h2 { margin: 0 0 20px; font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.14; letter-spacing: 0.196px; color: #fff; }
   .options { display: grid; gap: 10px; }
   .option {
-    display: block; width: 100%; text-align: left; background: transparent;
-    border: 1px solid rgba(255,255,255,0.16); color: var(--text-dark);
-    border-radius: 10px; padding: 14px 16px; font-size: 15px; cursor: pointer; font-family: inherit;
+    display: block; width: 100%; text-align: left; background: var(--surface-2);
+    border: 1px solid transparent; color: var(--text-dark);
+    border-radius: 11px; padding: 14px 16px; font-size: 17px; letter-spacing: -0.374px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s ease;
   }
-  .option.selected { border-color: var(--accent); background: rgba(181,80,45,0.18); }
+  .option:hover { background: #333336; }
+  .option.selected { border-color: var(--blue); background: rgba(0,113,227,0.18); }
   .field { display: block; margin-bottom: 8px; }
   .field input {
-    width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 8px; padding: 12px 14px; color: var(--text-dark); font-size: 15px; font-family: inherit;
+    width: 100%; background: var(--surface-2); border: 1px solid transparent;
+    border-radius: 11px; padding: 12px 14px; color: var(--text-dark); font-size: 17px; letter-spacing: -0.374px; font-family: inherit;
   }
+  .field input::placeholder { color: rgba(255,255,255,0.32); }
   .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none;
-    padding: 13px 24px; border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; font-family: inherit; }
-  .btn:hover { background: var(--accent-light); }
-  .btn[disabled] { opacity: 0.4; cursor: default; pointer-events: none; }
-  .btn-ghost { background: transparent; color: var(--text-muted-dark); border: 1px solid rgba(255,255,255,0.16); }
-  .btn-ghost:hover { color: var(--text-dark); border-color: rgba(255,255,255,0.3); }
-  .result-text { white-space: pre-wrap; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--radius); padding: 20px; font-size: 14.5px; margin: 20px 0; }
-  .note { font-size: 13px; color: var(--text-muted-dark); margin-top: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: #fff; border: 1px solid transparent;
+    padding: 11px 22px; border-radius: 980px; font-size: 17px; font-weight: 400; letter-spacing: -0.374px; text-decoration: none; cursor: pointer; font-family: inherit; transition: background 0.15s ease; }
+  .btn:hover { background: var(--blue-hover); }
+  .btn[disabled] { opacity: 0.6; cursor: default; pointer-events: none; }
+  .btn-ghost { background: transparent; color: var(--link-dark); border: 1px solid var(--link-dark); }
+  .btn-ghost:hover { background: transparent; text-decoration: underline; }
+  .result-text { white-space: pre-wrap; background: var(--surface-2); border-radius: 11px; padding: 20px; font-size: 15px; letter-spacing: -0.224px; margin: 20px 0; }
+  .note { font-size: 14px; letter-spacing: -0.224px; color: var(--text-muted-dark); margin-top: 8px; }
 </style>
 </head>
 <body>
