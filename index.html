@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Запуск ресторанов и баров под ключ — Минск</title>
-<meta name="description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко, шесть объектов в Минске.">
+<meta name="description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко — проектный менеджер, шесть объектов в Минске.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Алексей Литовченко">
 <meta property="og:title" content="Открываю рестораны и бары под ключ — Минск">
-<meta property="og:description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко, шесть объектов в Минске.">
+<meta property="og:description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко — проектный менеджер, шесть объектов в Минске.">
 <meta property="og:url" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/">
 <meta property="og:image" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/images/portrait.jpg">
 <meta property="og:image:width" content="1024">
@@ -89,12 +89,15 @@
   .nav a {
     color: #fff;
     opacity: 0.8;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: -0.12px;
     text-decoration: none;
+    padding: 14px 4px;
   }
 
-  .nav a:hover { opacity: 1; text-decoration: underline; }
+  @media (hover: hover) {
+    .nav a:hover { opacity: 1; text-decoration: underline; }
+  }
 
   .kicker {
     display: block;
@@ -187,11 +190,13 @@
     transition: background 0.15s ease;
   }
 
-  .btn:hover { background: var(--blue-hover); }
+  @media (hover: hover) {
+    .btn:hover { background: var(--blue-hover); }
+  }
   .btn:active { background: #ededf2; color: var(--ink); }
 
   .hero-note {
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: -0.224px;
     color: var(--text-muted-dark);
   }
@@ -270,7 +275,7 @@
     background: var(--gray);
     border-left: 3px solid var(--ink);
     border-radius: 0 12px 12px 0;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.47;
   }
 
@@ -313,7 +318,7 @@
   }
 
   .mini-step-text span {
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: -0.224px;
     color: var(--text-muted);
   }
@@ -348,11 +353,12 @@
     margin-top: 24px;
     text-align: center;
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: -0.224px;
   }
 
-  .hero-author { display: inline-flex; align-items: center; gap: 10px; }
+  .hero-author { display: inline-flex; align-items: center; gap: 10px; text-align: left; max-width: 340px; }
+  .hero-author img { flex-shrink: 0; }
 
   .hero-author img {
     width: 36px;
@@ -409,7 +415,9 @@
     border: 1px solid var(--link);
   }
 
-  .btn-outline:hover { background: transparent; text-decoration: underline; }
+  @media (hover: hover) {
+    .btn-outline:hover { background: transparent; text-decoration: underline; }
+  }
   .btn-outline:active { background: var(--gray); color: var(--link); }
 
   .hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
@@ -420,7 +428,9 @@
     border: 1px solid var(--link-dark);
   }
 
-  .btn-outline-dark:hover { background: transparent; text-decoration: underline; }
+  @media (hover: hover) {
+    .btn-outline-dark:hover { background: transparent; text-decoration: underline; }
+  }
   .btn-outline-dark:active { background: rgba(255, 255, 255, 0.12); color: var(--link-dark); }
 
   /* CTA */
@@ -435,12 +445,44 @@
   .cta .lead { color: var(--text-muted-dark); margin-top: 16px; margin-bottom: 32px; }
   .cta .hero-note { display: block; margin-top: 18px; }
 
+  .next-steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 0 auto 40px;
+    padding: 0;
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    text-align: left;
+  }
+
+  .next-steps li { counter-increment: step; }
+
+  .next-steps li::before {
+    content: counter(step);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--black);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .next-steps strong { display: block; color: #fff; font-size: 17px; margin-bottom: 4px; }
+  .next-steps span { color: var(--text-muted-dark); font-size: 16px; line-height: 1.47; }
+
   footer {
     padding: 32px 0;
     background: var(--gray);
     text-align: center;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: -0.12px;
   }
 
@@ -463,8 +505,17 @@
     .diff-cell:last-child::before { content: "Здесь"; color: var(--link); }
     .lead { font-size: 19px; }
     .hero { padding: 80px 0 72px; }
-    .nav .wrap { gap: 18px; padding: 0 12px; }
-    .tools-grid { flex-direction: column; align-items: center; }
+    .nav .wrap { gap: 10px; padding: 0 12px; }
+    .nav a { font-size: 14px; padding: 14px 6px; }
+    .problem-card, .case-card { padding: 24px 20px; }
+    .format-card { padding: 28px 20px; }
+    .format-card h3 { font-size: 26px; }
+    .contract-box { padding: 16px; }
+    .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+    .hero-buttons .btn, .tools-grid .btn { justify-content: center; }
+    .tools-grid { align-items: stretch; max-width: 340px; margin-left: auto; margin-right: auto; }
+    .tools-grid { flex-direction: column; }
+    .next-steps { grid-template-columns: 1fr; gap: 20px; }
   }
 </style>
 </head>
@@ -489,7 +540,7 @@
           <a class="btn" href="#contact">Обсудить запуск →</a>
           <a class="btn btn-outline-dark" href="diagnostika.html">Проверить заведение →</a>
         </div>
-        <span class="hero-note hero-author"><img src="images/portrait.jpg" alt="Алексей Литовченко" width="36" height="36">Алексей Литовченко · шесть объектов в Минске, 2017–2026</span>
+        <span class="hero-note hero-author"><img src="images/portrait.jpg" alt="Алексей Литовченко" width="36" height="36">Алексей Литовченко, проектный менеджер · шесть объектов в Минске, 2017–2026</span>
       </div>
     </div>
   </header>
@@ -644,13 +695,18 @@
     <div class="wrap">
       <span class="kicker">Что дальше</span>
       <h2>Расскажите, что у вас</h2>
-      <p class="lead">Напишите в Telegram, что открываете или что уже работает, — обсудим, что подойдёт: запуск под ключ или консультирование.</p>
+      <p class="lead">Первая встреча бесплатная — на ней решаем, что вам подойдёт: запуск под ключ или консультирование.</p>
+      <ol class="next-steps">
+        <li><strong>Сообщение</strong><span>Пишете в Telegram пару строк: что открываете или что уже работает.</span></li>
+        <li><strong>Личная встреча</strong><span>Бесплатно. Знакомимся и обсуждаем задачу в общих чертах — глубокий разбор объекта это уже консультация.</span></li>
+        <li><strong>Предложение</strong><span>Этапы, критерий приёмки и фиксированная стоимость под ваш проект.</span></li>
+      </ol>
       <a class="btn" href="https://t.me/AlekseyResto" target="_blank" rel="noopener">Написать в Telegram →</a>
     </div>
   </section>
 
   <footer>
-    Алексей Литовченко · запуск и консультирование ресторанов и баров · Минск, Беларусь
+    Алексей Литовченко · проектный менеджер · запуск и консультирование ресторанов и баров · Минск, Беларусь
   </footer>
 
 </body>
