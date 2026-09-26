@@ -264,6 +264,22 @@
 
   .mini-steps { display: grid; gap: 16px; }
 
+  .contract-box {
+    margin-top: 28px;
+    padding: 20px 22px;
+    background: var(--gray);
+    border-left: 3px solid var(--ink);
+    border-radius: 0 12px 12px 0;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  .contract-box strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 17px; }
+  .contract-box ul { margin: 10px 0 0; padding-left: 18px; list-style: "— "; }
+  .contract-box li + li { margin-top: 4px; }
+  .contract-box li::marker { color: var(--text-muted); }
+  .contract-note { margin-top: 12px; color: var(--text-muted); }
+
   .mini-step {
     display: grid;
     grid-template-columns: 26px 1fr;
@@ -504,7 +520,7 @@
         <div class="format-card">
           <span class="format-tag">Я веду весь запуск</span>
           <h3>Запуск под ключ</h3>
-          <p class="format-desc">Весь цикл — от концепции до передачи. Критерий «работает без меня» прописываю в договоре заранее — например, 30 дней управляющий ведёт объект сам, и показатели остаются в согласованных рамках.</p>
+          <p class="format-desc">Весь цикл — от концепции до передачи. Критерий «работает без меня» прописываю в договоре заранее — как это выглядит, ниже.</p>
           <div class="mini-steps">
             <div class="mini-step">
               <div class="mini-step-num">1</div>
@@ -526,6 +542,17 @@
               <div class="mini-step-num">5</div>
               <div class="mini-step-text"><strong>Передача</strong><span>Управляющий и команда работают по зафиксированным процессам без моего участия</span></div>
             </div>
+          </div>
+          <div class="contract-box">
+            <strong>Как это выглядит в договоре</strong>
+            <p>Объект считается переданным, если 30 дней подряд управляющий ведёт его без моего участия и держит:</p>
+            <ul>
+              <li>фудкост не выше согласованного порога</li>
+              <li>долю ФОТ в выручке не выше согласованного порога</li>
+              <li>выручку в пределах согласованного отклонения от плана</li>
+              <li>смены открываются и закрываются по чек-листу, отчёт вам — раз в неделю</li>
+            </ul>
+            <p class="contract-note">Пороги фиксируем до старта, под ваш формат: у бара и ресторана они разные.</p>
           </div>
         </div>
         <div class="format-card">
