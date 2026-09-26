@@ -8,12 +8,13 @@ var SCALE_QUESTION = 'Насколько это под контролем без
 
 var PRACTICE_ITEMS = [
   { id: 'foodcost', label: 'Фудкост и маржинальность меню' },
-  { id: 'shifts', label: 'Планирование смен и текучка персонала' },
+  { id: 'shifts', label: 'Планирование смен' },
+  { id: 'turnover', label: 'Текучка персонала' },
   { id: 'standards', label: 'Стандарты и чек-листы открытия/закрытия смены' },
-  { id: 'reporting', label: 'Финансовая отчётность перед вами (P&L, кассовые разрывы)' },
+  { id: 'reporting', label: 'Финансовая отчётность для вас (P&L, кассовые разрывы)' },
   { id: 'hiring', label: 'Найм и обучение новых сотрудников' },
   { id: 'marketing', label: 'Маркетинг и заполняемость / повторные визиты' },
-  { id: 'abc', label: 'Меню разбирается по ABC-анализу' }
+  { id: 'abc', label: 'Разбор меню по ABC-анализу' }
 ];
 
 var SCALE_OPTIONS = [
@@ -78,9 +79,9 @@ function buildSummary(answers) {
   if (firstRed) {
     mainRisk = firstRed.label + ' — не под контролем';
   } else if (firstYellow) {
-    mainRisk = firstYellow.label + ' — то, что развалится в ваш первый отпуск';
+    mainRisk = firstYellow.label + ' — то, что развалится, когда я уйду в отпуск';
   } else if (green > 0) {
-    mainRisk = 'Явных слабых мест по этим семи пунктам не видно';
+    mainRisk = 'Явных слабых мест по этим пунктам не видно';
   }
 
   return { green: green, yellow: yellow, red: red, mainRisk: mainRisk };

@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Запуск заведений под ключ — Минск</title>
+<title>Запуск ресторанов и баров под ключ — Минск</title>
+<meta name="description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко, шесть объектов в Минске.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Алексей Литовченко">
+<meta property="og:title" content="Открываю рестораны и бары под ключ — Минск">
+<meta property="og:description" content="Веду запуск от концепции до дня, когда управляющий справляется сам. Или консультирую, если запускаете своей командой. Алексей Литовченко, шесть объектов в Минске.">
+<meta property="og:url" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/">
+<meta property="og:image" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/images/portrait.jpg">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="1280">
+<meta property="og:image:alt" content="Алексей Литовченко">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
   :root {
     --black: #000000;
@@ -52,7 +65,7 @@
   }
 
   section { padding: 112px 0; background: var(--white); }
-  section.problem, section.formats, section.diff { background: var(--gray); }
+  section.formats, section.diff { background: var(--gray); }
 
   /* Navigation: тёмное стекло */
   .nav {
@@ -112,8 +125,7 @@
   section > .wrap > h2,
   section > .wrap > .lead { text-align: center; }
 
-  section > .wrap > .lead,
-  .solution p { margin-left: auto; margin-right: auto; }
+  section > .wrap > .lead { margin-left: auto; margin-right: auto; }
 
   p { margin: 0; }
 
@@ -193,7 +205,7 @@
   }
 
   .problem-card {
-    background: var(--white);
+    background: var(--gray);
     border-radius: 12px;
     padding: 32px;
   }
@@ -207,33 +219,6 @@
   }
 
   .problem-card p { color: var(--text-muted); font-size: 17px; }
-
-  .now-strip {
-    margin-top: 20px;
-    background: var(--black);
-    color: var(--text-dark);
-    border-radius: 12px;
-    padding: 32px;
-  }
-
-  .now-strip h3 {
-    color: #fff;
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: 0.231px;
-    margin-bottom: 8px;
-  }
-
-  .now-strip p { color: var(--text-muted-dark); font-size: 17px; }
-
-  /* Solution */
-  .solution p {
-    font-size: 21px;
-    line-height: 1.38;
-    letter-spacing: 0.231px;
-    max-width: 760px;
-    color: var(--text);
-  }
 
   /* Formats */
   .format-grid {
@@ -351,6 +336,16 @@
     letter-spacing: -0.224px;
   }
 
+  .hero-author { display: inline-flex; align-items: center; gap: 10px; }
+
+  .hero-author img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+
   /* Differentiation */
   .diff-table {
     margin-top: 48px;
@@ -401,6 +396,17 @@
   .btn-outline:hover { background: transparent; text-decoration: underline; }
   .btn-outline:active { background: var(--gray); color: var(--link); }
 
+  .hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+  .btn-outline-dark {
+    background: transparent;
+    color: var(--link-dark);
+    border: 1px solid var(--link-dark);
+  }
+
+  .btn-outline-dark:hover { background: transparent; text-decoration: underline; }
+  .btn-outline-dark:active { background: rgba(255, 255, 255, 0.12); color: var(--link-dark); }
+
   /* CTA */
   .cta {
     background: var(--black);
@@ -427,8 +433,19 @@
     section { padding: 72px 0; }
     .problem-grid, .cases-grid, .format-grid { grid-template-columns: 1fr; }
     .diff-row { grid-template-columns: 1fr; }
-    .diff-row.head .diff-cell:last-child { display: none; }
-    .lead, .solution p { font-size: 19px; }
+    .diff-row.head { display: none; }
+    .diff-cell:first-child { padding-bottom: 6px; }
+    .diff-cell:last-child { padding-top: 6px; }
+    .diff-cell::before {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.12px;
+    }
+    .diff-cell:first-child::before { content: "Обычно"; color: var(--text-muted); }
+    .diff-cell:last-child::before { content: "Здесь"; color: var(--link); }
+    .lead { font-size: 19px; }
     .hero { padding: 80px 0 72px; }
     .nav .wrap { gap: 18px; padding: 0 12px; }
     .tools-grid { flex-direction: column; align-items: center; }
@@ -441,19 +458,22 @@
     <div class="wrap">
       <a href="#formats">Форматы</a>
       <a href="#cases">Кейсы</a>
-      <a href="#tools">Диагностика</a>
+      <a href="#tools">Опросники</a>
       <a href="#contact">Контакты</a>
     </div>
   </nav>
 
   <header class="hero">
     <div class="wrap">
-      <span class="kicker">Запуск заведений · Минск, Беларусь · 2017–2026</span>
-      <h1>Заведение под ключ — с процессами, которые остаются работать без вас</h1>
-      <p class="lead">Берём весь запуск на себя: от концепции до старта и устойчивой работы. На выходе — не просто открытые двери, а управляемый бизнес, который не разваливается, когда мы уходим.</p>
+      <span class="kicker">Рестораны и бары · Минск, Беларусь</span>
+      <h1>Открываю рестораны и бары под ключ — и оставляю их работать без меня</h1>
+      <p class="lead">Владельцам и инвесторам: веду запуск от концепции до дня, когда управляющий справляется сам. Если заведение уже работает — найду, что держится только на вас.</p>
       <div class="hero-actions">
-        <a class="btn" href="#contact">Обсудить старт →</a>
-        <span class="hero-note">Шесть запусков и перезапусков за 2017–2026</span>
+        <div class="hero-buttons">
+          <a class="btn" href="#contact">Обсудить запуск →</a>
+          <a class="btn btn-outline-dark" href="diagnostika.html">Проверить заведение →</a>
+        </div>
+        <span class="hero-note hero-author"><img src="images/portrait.jpg" alt="Алексей Литовченко" width="36" height="36">Алексей Литовченко · шесть объектов в Минске, 2017–2026</span>
       </div>
     </div>
   </header>
@@ -465,37 +485,26 @@
       <div class="problem-grid">
         <div class="problem-card">
           <h3>До открытия</h3>
-          <p>Смета уходит в минус, сроки сдвигаются, а концепция на бумаге расходится с тем, что происходит в зале — потому что за результат целиком никто не отвечает, только каждый за свой участок.</p>
+          <p>Бюджет вылезает за смету, сроки сдвигаются, а концепция на бумаге расходится с тем, что происходит в зале — потому что каждый отвечает только за свой участок, а за результат целиком — никто.</p>
         </div>
         <div class="problem-card">
           <h3>После открытия</h3>
-          <p>Управляющий держит показатели, пока держит лично — и всё рушится в его первый отпуск или уход. Разовый консультант оставляет отчёт, а не работающий результат.</p>
+          <p>Управляющий тянет показатели на себе — и всё рушится, как только он уходит в отпуск или увольняется. Разовый консультант оставляет отчёт, а не работающий результат.</p>
         </div>
       </div>
-      <div class="now-strip">
-        <h3>Почему это особенно больно сейчас</h3>
-        <p>Аренда, стройка и персонал дорожают — цена ошибки растёт. А управленцев, которые доводят запуск до стабильного результата и не бросают его сразу после открытия, на рынке не хватает.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="solution">
-    <div class="wrap">
-      <span class="kicker">Решение</span>
-      <h2>Два формата — полная ответственность или экспертная поддержка</h2>
-      <p>Работаю в двух форматах: беру запуск как подряд целиком — или подключаюсь консультантом там, где ответственность за результат остаётся у вашей команды. В обоих случаях цель одна — выстроить процессы под ваш конкретный объект, а не оставить общие рекомендации на бумаге.</p>
     </div>
   </section>
 
   <section class="formats" id="formats">
     <div class="wrap">
       <span class="kicker">Форматы сотрудничества</span>
-      <h2>Как мы можем работать</h2>
+      <h2>Два способа работать со мной</h2>
+      <p class="lead">Беру запуск как подряд целиком — или подключаюсь консультантом, если запускаете своей командой. В обоих случаях итог один: заведение работает по понятным правилам, а не держится на одном человеке.</p>
       <div class="format-grid">
         <div class="format-card">
-          <span class="format-tag">Полная ответственность</span>
+          <span class="format-tag">Я веду весь запуск</span>
           <h3>Запуск под ключ</h3>
-          <p class="format-desc">Весь цикл — от концепции до передачи. Критерий «работает без меня» фиксируем в договоре заранее.</p>
+          <p class="format-desc">Весь цикл — от концепции до передачи. Критерий «работает без меня» прописываю в договоре заранее — например, 30 дней управляющий ведёт объект сам, и показатели остаются в согласованных рамках.</p>
           <div class="mini-steps">
             <div class="mini-step">
               <div class="mini-step-num">1</div>
@@ -503,11 +512,11 @@
             </div>
             <div class="mini-step">
               <div class="mini-step-num">2</div>
-              <div class="mini-step-text"><strong>Стройка и оборудование</strong><span>Контроль подрядчиков, сроков и сметы</span></div>
+              <div class="mini-step-text"><strong>Стройка и оборудование</strong><span>Подбор проверенных подрядчиков, контроль сроков и сметы</span></div>
             </div>
             <div class="mini-step">
               <div class="mini-step-num">3</div>
-              <div class="mini-step-text"><strong>Найм и обучение</strong><span>Команда, стандарты обслуживания, мотивация</span></div>
+              <div class="mini-step-text"><strong>Наём и обучение</strong><span>Команда, стандарты обслуживания, мотивация</span></div>
             </div>
             <div class="mini-step">
               <div class="mini-step-num">4</div>
@@ -515,22 +524,22 @@
             </div>
             <div class="mini-step">
               <div class="mini-step-num">5</div>
-              <div class="mini-step-text"><strong>Передача</strong><span>Зафиксированный в договоре критерий «работает без меня»</span></div>
+              <div class="mini-step-text"><strong>Передача</strong><span>Управляющий и команда работают по зафиксированным процессам без моего участия</span></div>
             </div>
           </div>
         </div>
         <div class="format-card">
-          <span class="format-tag">Без операционной ответственности</span>
+          <span class="format-tag">Вы делаете сами, я проверяю и подсказываю</span>
           <h3>Консультирование</h3>
-          <p class="format-desc">Для тех, кто хочет вести запуск своей командой, но с экспертной опорой на каждом шаге.</p>
+          <p class="format-desc">Для тех, кто ведёт запуск своей командой, но хочет, чтобы опытный человек проверял решения на каждом шаге.</p>
           <div class="mini-steps">
             <div class="mini-step">
-              <div class="mini-step-num">1</div>
+              <div class="mini-step-num">А</div>
               <div class="mini-step-text"><strong>Разовый аудит</strong><span>Смета, концепция, финансовая модель — до того как деньги вложены</span></div>
             </div>
             <div class="mini-step">
-              <div class="mini-step-num">2</div>
-              <div class="mini-step-text"><strong>Сопровождение команды</strong><span>Курирую запуск, который ведёт ваша команда, без ответственности за конечный результат</span></div>
+              <div class="mini-step-num">Б</div>
+              <div class="mini-step-text"><strong>Сопровождение команды</strong><span>Курирую запуск, который ведёт ваша команда; за конечный результат отвечаете вы</span></div>
             </div>
           </div>
         </div>
@@ -541,52 +550,52 @@
   <section class="cases" id="cases">
     <div class="wrap">
       <span class="kicker">Кейсы</span>
-      <h2>Как это выглядело на практике</h2>
+      <h2>Что я делал</h2>
       <div class="cases-grid">
         <div class="case-card">
           <span class="case-tag">Запуск с нуля</span>
           <h3>Heroes Play-Bar</h3>
-          <p>Бар с нуля целиком: стройка, концепция меню и барной карты, звук и техническое оснащение — плюс техническое задание на собственное ПО и интеграция бронирования с Битрикс24.</p>
+          <p>Запуск бара от голых стен до открытия: подрядчики на все работы, меню вместе с шеф-поваром, продукт площадки — игровая часть, барная карта, звук и техника. Плюс ТЗ на собственную программу и связка бронирования с Битрикс24.</p>
         </div>
         <div class="case-card">
           <span class="case-tag">Перезапуск</span>
           <h3>SAVA Bar</h3>
-          <p>Перезапуск действующего заведения в новом, ночном формате: новая концепция целиком и полный пакет разрешительной документации — самый тяжёлый случай из возможных.</p>
+          <p>Действующий бар, который пришлось переделать в ночной формат: новая концепция целиком и полный пакет разрешительной документации. В ноль вышли на второй месяц, в прибыль — на четвёртый.</p>
         </div>
         <div class="case-card">
-          <span class="case-tag">Премиальный сегмент</span>
+          <span class="case-tag">Запуск после реконструкции</span>
           <h3>Marbl</h3>
-          <p>Контроль бюджета через ABC-анализ и баланс креативности меню с рентабельностью — вместе с шеф-поваром.</p>
+          <p>Премиальный ресторан: реконструкция помещения под дизайн-проект, концепция меню вместе с шеф-поваром, набор и обучение команды. В ноль вышли на третий месяц.</p>
         </div>
       </div>
-      <p class="cases-footnote">И ещё три объекта за 2017–2026 — Studio Wine &amp; Spirits, Umami, «Дом». Всего шесть запусков и перезапусков, Минск.</p>
+      <p class="cases-footnote">И ещё три объекта — Studio Wine &amp; Spirits, Umami, «Дом». Всего шесть объектов в Минске с 2017 года.</p>
     </div>
   </section>
 
   <section class="diff">
     <div class="wrap">
       <span class="kicker">Чем это отличается</span>
-      <h2>Не найм и не разовый консалтинг</h2>
+      <h2>Не наёмный управляющий и не консультант с отчётом</h2>
       <div class="diff-table">
         <div class="diff-row head">
           <div class="diff-cell">Обычно</div>
           <div class="diff-cell">Здесь</div>
         </div>
         <div class="diff-row">
-          <div class="diff-cell">Наёмный управляющий держит результат, пока держит лично</div>
-          <div class="diff-cell">Процессы зафиксированы и работают после ухода подрядчика</div>
+          <div class="diff-cell">Наёмный управляющий держит всё на себе</div>
+          <div class="diff-cell">Процессы зафиксированы и работают после моего ухода</div>
         </div>
         <div class="diff-row">
           <div class="diff-cell">Разовый консультант оставляет отчёт на бумаге</div>
-          <div class="diff-cell">Подрядчик отвечает за рабочий результат, а не за совет</div>
+          <div class="diff-cell">В запуске под ключ я отвечаю за результат, а не за совет</div>
         </div>
         <div class="diff-row">
-          <div class="diff-cell">Один формат сотрудничества на любую задачу</div>
-          <div class="diff-cell">Вы выбираете: полный подряд или только консультирование</div>
+          <div class="diff-cell">Подрядчиков на стройку ищете сами — наугад и по отзывам</div>
+          <div class="diff-cell">Подберу проверенных подрядчиков на все работы</div>
         </div>
         <div class="diff-row">
           <div class="diff-cell">Каждый подрядчик отвечает только за свой участок</div>
-          <div class="diff-cell">Один человек отвечает за весь цикл целиком</div>
+          <div class="diff-cell">Я один отвечаю за весь цикл</div>
         </div>
       </div>
     </div>
@@ -595,8 +604,8 @@
   <section class="tools" id="tools">
     <div class="wrap">
       <span class="kicker">Проверьте свой случай</span>
-      <h2>Пройдите короткую диагностику — 5–7 минут</h2>
-      <p class="lead">Ответы уходят напрямую в Telegram, без регистрации и без отправки на сервер.</p>
+      <h2>Ответьте на несколько вопросов — 5–7 минут</h2>
+      <p class="lead">Без регистрации. Ответы никуда не уходят, пока вы сами не отправите их мне в Telegram.</p>
       <div class="tools-grid">
         <a class="btn" href="otkrytie.html">Я открываю заведение →</a>
         <a class="btn btn-outline" href="diagnostika.html">У меня уже работает заведение →</a>
@@ -607,15 +616,14 @@
   <section class="cta" id="contact">
     <div class="wrap">
       <span class="kicker">Что дальше</span>
-      <h2>Расскажите про ваш объект</h2>
-      <p class="lead">Если тема откликнулась — напишите в Telegram. Обсудим ваш объект и формат, который подойдёт: запуск под ключ или консультирование.</p>
+      <h2>Расскажите, что у вас</h2>
+      <p class="lead">Напишите в Telegram, что открываете или что уже работает, — обсудим, что подойдёт: запуск под ключ или консультирование.</p>
       <a class="btn" href="https://t.me/AlekseyResto" target="_blank" rel="noopener">Написать в Telegram →</a>
-      <span class="hero-note">Обсуждаем формат и сроки старта индивидуально.</span>
     </div>
   </section>
 
   <footer>
-    Запуск и консультирование заведений · Минск, Беларусь · 2026
+    Алексей Литовченко · запуск и консультирование ресторанов и баров · Минск, Беларусь
   </footer>
 
 </body>

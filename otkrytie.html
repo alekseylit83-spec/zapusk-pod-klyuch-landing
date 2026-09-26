@@ -4,6 +4,19 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Бриф для открытия заведения — Минск</title>
+<meta name="description" content="Несколько вопросов о будущем ресторане или баре — 5–7 минут, без регистрации. Готовый бриф отправляете в Telegram сами." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content="Алексей Литовченко" />
+<meta property="og:title" content="Бриф для открытия заведения — Минск" />
+<meta property="og:description" content="Несколько вопросов о будущем ресторане или баре — 5–7 минут, без регистрации. Готовый бриф отправляете в Telegram сами." />
+<meta property="og:url" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/otkrytie.html" />
+<meta property="og:image" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/images/portrait.jpg" />
+<meta property="og:image:width" content="1024" />
+<meta property="og:image:height" content="1280" />
+<meta property="og:image:alt" content="Алексей Литовченко" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <style>
   :root {
     --black: #000000;
@@ -136,11 +149,11 @@
     var c = answers.concept || {};
     return (
       '<div class="field"><label>Мы создаём</label>' +
-      '<input type="text" id="f-forWhom" value="' + escapeAttr(c.forWhom || '') + '"></div>' +
+      '<input type="text" id="f-forWhom" placeholder="Например: бар с настольными играми" value="' + escapeAttr(c.forWhom || '') + '"></div>' +
       '<div class="field"><label>для</label>' +
-      '<input type="text" id="f-audience" value="' + escapeAttr(c.audience || '') + '"></div>' +
+      '<input type="text" id="f-audience" placeholder="Например: компании 25–35 лет" value="' + escapeAttr(c.audience || '') + '"></div>' +
       '<div class="field"><label>где гости получают</label>' +
-      '<input type="text" id="f-result" value="' + escapeAttr(c.result || '') + '"></div>'
+      '<input type="text" id="f-result" placeholder="Например: вечер, после которого хочется вернуться" value="' + escapeAttr(c.result || '') + '"></div>'
     );
   }
 
@@ -243,11 +256,11 @@
     var text = buildBriefText(answers);
     var link = buildTelegramLink(text);
     app.innerHTML =
-      '<div class="card"><h2>Ваш бриф готов</h2>' +
+      '<div class="card"><h2>Бриф собран — отправьте его мне</h2>' +
       '<div class="result-text" id="result-text"></div>' +
-      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить вам в Telegram →</a> ' +
+      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить в Telegram →</a> ' +
       '<button type="button" class="btn btn-ghost" id="btn-copy">Скопировать текст</button>' +
-      '<div class="note">Ответы остаются в этом окне, пока вы не нажмёте «Отправить» — тогда откроется Telegram с готовым текстом, и уходит только то, что вы подтвердите.</div>' +
+      '<div class="note">Ничего не отправлено. Нажмите кнопку — откроется Telegram с готовым текстом, вы сможете его поправить и отправить сами.</div>' +
       '</div>' +
       '<div class="nav-row"><button type="button" class="btn btn-ghost" id="btn-back">Назад</button><span></span></div>';
     document.getElementById('result-text').textContent = text;

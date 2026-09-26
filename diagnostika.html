@@ -4,6 +4,19 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Диагностика заведения — Минск</title>
+<meta name="description" content="Проверьте, что в вашем ресторане или баре держится только на вас. 5–7 минут, без регистрации, ответы никуда не уходят." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content="Алексей Литовченко" />
+<meta property="og:title" content="Диагностика заведения — Минск" />
+<meta property="og:description" content="Проверьте, что в вашем ресторане или баре держится только на вас. 5–7 минут, без регистрации, ответы никуда не уходят." />
+<meta property="og:url" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/diagnostika.html" />
+<meta property="og:image" content="https://alekseylit83-spec.github.io/zapusk-pod-klyuch-landing/images/portrait.jpg" />
+<meta property="og:image:width" content="1024" />
+<meta property="og:image:height" content="1280" />
+<meta property="og:image:alt" content="Алексей Литовченко" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <style>
   :root {
     --black: #000000;
@@ -62,6 +75,7 @@
   .btn-ghost { background: transparent; color: var(--link-dark); border: 1px solid var(--link-dark); }
   .btn-ghost:hover { background: transparent; text-decoration: underline; }
   .result-text { white-space: pre-wrap; background: var(--surface-2); border-radius: 11px; padding: 20px; font-size: 15px; letter-spacing: -0.224px; margin: 20px 0; }
+  .scale-q { margin: -8px 0 20px; font-size: 17px; color: var(--text-muted-dark); }
   .note { font-size: 14px; letter-spacing: -0.224px; color: var(--text-muted-dark); margin-top: 8px; }
 </style>
 </head>
@@ -211,11 +225,11 @@
     var text = buildDiagnosticText(answers);
     var link = buildTelegramLink(text);
     app.innerHTML =
-      '<div class="card"><h2>Ваша диагностика готова</h2>' +
+      '<div class="card"><h2>Ответы собраны — отправьте их мне</h2>' +
       '<div class="result-text" id="result-text"></div>' +
-      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить вам в Telegram →</a> ' +
+      '<a class="btn" href="' + link + '" target="_blank" rel="noopener">Отправить в Telegram →</a> ' +
       '<button type="button" class="btn btn-ghost" id="btn-copy">Скопировать текст</button>' +
-      '<div class="note">Ответы остаются в этом окне, пока вы не нажмёте «Отправить» — тогда откроется Telegram с готовым текстом, и уходит только то, что вы подтвердите.</div>' +
+      '<div class="note">Ничего не отправлено. Нажмите кнопку — откроется Telegram с готовым текстом, вы сможете его поправить и отправить сами.</div>' +
       '</div>' +
       '<div class="nav-row"><button type="button" class="btn btn-ghost" id="btn-back">Назад</button><span></span></div>';
     document.getElementById('result-text').textContent = text;
@@ -253,7 +267,7 @@
       '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div class="progress-label">Шаг ' + (currentIndex + 1) + ' из ' + DIAGNOSTIKA_STEPS.length + '</div>' +
       '<div class="card"><h2>' + step.label + '</h2>' +
-        (step.type === 'scale' ? '<p class="note">' + SCALE_QUESTION + '</p>' : '') +
+        (step.type === 'scale' ? '<p class="scale-q">' + SCALE_QUESTION + '</p>' : '') +
         body + '</div>' +
       '<div class="nav-row">' +
         '<button type="button" class="btn btn-ghost" id="btn-back"' + (currentIndex === 0 ? ' disabled' : '') + '>Назад</button>' +
